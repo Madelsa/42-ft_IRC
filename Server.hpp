@@ -6,7 +6,7 @@
 /*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:26:34 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/20 21:23:41 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/10/21 03:26:08 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ private:
     void setupSocket();
     void acceptClient(int &clientCount, std::map<int, Client> &clients, struct pollfd fds[]);
     void handleClientInput(int i, int &clientCount, std::map<int, Client> &clients, struct pollfd fds[]);
+    void removeClientFD(int i, int &clientCount, std::map<int, Client> &clients, struct pollfd fds[]);
     void cleanupClients(int clientCount, struct pollfd fds[]);
 };
 

@@ -6,7 +6,7 @@
 /*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:26:54 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/20 21:19:09 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/10/21 02:17:23 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1611,55 +1611,55 @@ int main(int argc, char *argv[])
 //                         currentClient.clearClientMessages();
 
 //                         // Handle commands
-//                         if (command == "CAP")
-//                         {
-//                             currentClient.handleCapCommand(&currentClient, params);
-//                         }
-//                         else if (currentClient.getRegisterSteps(0) == true && command == "PASS")
-//                         {
-//                             if (!currentClient.getHasSentWelcomeMessage())
-//                             {
-//                                 currentClient.handlePassCommand(&currentClient, params, serverPassword, clients);
-//                                 currentClient.setRegisterSteps(1, true);
-//                             }
-//                             else
-//                                 currentClient.getServerReplies().push_back(ERR_ALREADYREGISTERED(std::string("ircserver")));
+                        // if (command == "CAP")
+                        // {
+                        //     currentClient.handleCapCommand(&currentClient, params);
+                        // }
+                        // else if (currentClient.getRegisterSteps(0) == true && command == "PASS")
+                        // {
+                        //     if (!currentClient.getHasSentWelcomeMessage())
+                        //     {
+                        //         currentClient.handlePassCommand(&currentClient, params, serverPassword, clients);
+                        //         currentClient.setRegisterSteps(1, true);
+                        //     }
+                        //     else
+                        //         currentClient.getServerReplies().push_back(ERR_ALREADYREGISTERED(std::string("ircserver")));
 
-//                         }
-//                         else if (!currentClient.getRegisterSteps(1) && command == "USER")
-//                             currentClient.disconnectClient(&currentClient, clients);
-// 	                    else if (currentClient.getRegisterSteps(1) == true && (command == "USER" || command == "NICK"))
-//                         {
-//                                 if (command == "NICK")
-//                                 {
-//                                     currentClient.handleNickCommand(&currentClient, params, nicknames);
-//                                 }
-//                                 else if (command == "USER")
-//                                 {
-//                                     if (!currentClient.getHasSentWelcomeMessage())
-//                                     {
-//                                         currentClient.handleUserCommand(&currentClient, params);
-//                                         if (!currentClient.getHasSentPass())
-//                                             currentClient.disconnectClient(&currentClient, clients);
-//                                     }
-//                                     else
-//                                         currentClient.getServerReplies().push_back(ERR_ALREADYREGISTERED(std::string("ircserver")));
-//                                 }
-//                                 if (currentClient.getUsername() != "" && currentClient.getNickname() != "") 
-//                                 {
-//                                      currentClient.setRegisterSteps(2, true);
-//                                     currentClient.setIsRegistered(true);
-//                                 }
-//                         }
-//                         else if (command == "PING")
-//                         {
-//                            	currentClient.getServerReplies().push_back(RPL_PONG(idFormat(currentClient.getNickname(),currentClient.getUsername()),params[0]));
+                        // }
+                        // else if (!currentClient.getRegisterSteps(1) && command == "USER")
+                        //     currentClient.disconnectClient(&currentClient, clients);
+	                    // else if (currentClient.getRegisterSteps(1) == true && (command == "USER" || command == "NICK"))
+                        // {
+                        //         if (command == "NICK")
+                        //         {
+                        //             currentClient.handleNickCommand(&currentClient, params, nicknames);
+                        //         }
+                        //         else if (command == "USER")
+                        //         {
+                        //             if (!currentClient.getHasSentWelcomeMessage())
+                        //             {
+                        //                 currentClient.handleUserCommand(&currentClient, params);
+                        //                 if (!currentClient.getHasSentPass())
+                        //                     currentClient.disconnectClient(&currentClient, clients);
+                        //             }
+                        //             else
+                        //                 currentClient.getServerReplies().push_back(ERR_ALREADYREGISTERED(std::string("ircserver")));
+                        //         }
+                        //         if (currentClient.getUsername() != "" && currentClient.getNickname() != "") 
+                        //         {
+                        //              currentClient.setRegisterSteps(2, true);
+                        //             currentClient.setIsRegistered(true);
+                        //         }
+                        // }
+                        // else if (command == "PING")
+                        // {
+                        //    	currentClient.getServerReplies().push_back(RPL_PONG(idFormat(currentClient.getNickname(),currentClient.getUsername()),params[0]));
 
-//                         }
-//                         if (currentClient.getIsRegistered() && currentClient.getRegisterSteps(2) && !currentClient.getHasSentWelcomeMessage())
-//                         {
-//                             currentClient.MOTD(&currentClient);
-//                         }
+                        // }
+                        // if (currentClient.getIsRegistered() && currentClient.getRegisterSteps(2) && !currentClient.getHasSentWelcomeMessage())
+                        // {
+                        //     currentClient.MOTD(&currentClient);
+                        // }
 //                         currentClient.sendRepliesToClient(&currentClient);
 //                         currentClient.clearServerReplies(); // Clear replies after sending
 //                     }

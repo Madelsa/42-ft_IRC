@@ -6,7 +6,7 @@
 /*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:33:26 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/20 20:55:43 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/10/21 04:10:40 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,6 @@ void Client::MOTD(Client *client)
     return ;
 }
 
-void Client::handleUserCommand(Client *client, const std::vector<std::string> &params) {
-    if (params.size() < 3) {
-        client->getServerReplies().push_back(ERR_NEEDMOREPARAMS(std::string("ircserver"), "USER"));
-        return;
-    }
-
-    client->setUsername(params[0]);
-    client->setRealName(params[2]);
-
-    if (client->getHasSentPass()) {
-        std::string successMessage = "USER " + client->getUsername() + " registered successfully!\r\n";
-        client->getServerReplies().push_back(successMessage);
-        client->setIsRegistered(true);
-    }
-}
-
 void Client::handleNickCommand(Client *client, const std::vector<std::string> &params, std::vector<std::string>& nicknames) {
     if (params.size() < 1) {
         client->getServerReplies().push_back(ERR_NONICKNAMEGIVEN(std::string("ircserver")));
@@ -127,11 +111,30 @@ void Client::handleNickCommand(Client *client, const std::vector<std::string> &p
         return;
     }
    
+  
     client->setNickname(nickName);
     nicknames.push_back(nickName);
     client->getServerReplies().push_back(RPL_NICK(client->getNickname(), client->getUsername(), nickName));
     
 }
+
+
+void Client::handleUserCommand(Client *client, const std::vector<std::string> &params) {
+    if (params.size() < 3) {
+        client->getServerReplies().push_back(ERR_NEEDMOREPARAMS(std::string("ircserver"), "USER"));
+        return;
+    }
+
+    client->setUsername(params[0]);
+    client->setRealName(params[2]);
+
+    if (client->getHasSentPass()) {
+        std::string successMessage = "USER " + client->getUsername() + " registered successfully!\r\n";
+        client->getServerReplies().push_back(successMessage);
+        client->setIsRegistered(true);
+    }
+}
+
 
 
 void Client::handleCapCommand(Client *client, const std::vector<std::string> &params) {
@@ -150,7 +153,6 @@ void Client::handleCapCommand(Client *client, const std::vector<std::string> &pa
 }
 
 void Client::handlePassCommand(Client *client, const std::vector<std::string> &params, const std::string &expectedPassword, std::map<int, Client> &clients) {   
-    (void)clients;
     if (params.size() != 1) {
         client->getServerReplies().push_back(ERR_NEEDMOREPARAMS(std::string("ircserver"), "PART"));
         return;
@@ -175,7 +177,7 @@ void Client::sendRepliesToClient(Client *client)
 
     for (std::vector<std::string>::size_type j = 0; j < client->getServerReplies().size(); ++j) {
     ssize_t bytesSent = send(client->getSocket(), client->getServerReplies()[j].c_str(), client->getServerReplies()[j].length(), 0);
-    std::cout << "server sent to client: " + client->getServerReplies()[j] + "\n";
+    std::cout << "server sent to client: " + client->getServerReplies()[j];;
 
     // Handle potential errors
     if (bytesSent < 0) {
@@ -201,7 +203,7 @@ void Client::printClientMessages(Client *client) {
     }
 }
 
-void Client::disconnectClient(Client *client, std::map<int, Client> &clients) {
+void Client::disconnectClient(Client *client) {
     client->getServerReplies().push_back(ERR_PASSWDMISMATCH(std::string("ircserver")));
     client->getServerReplies().push_back(ERROR_MESSAGE(std::string("Password incorrect. Closing connection.")));
 
@@ -212,15 +214,6 @@ void Client::disconnectClient(Client *client, std::map<int, Client> &clients) {
     sendRepliesToClient(client);
 
     client->clearClientMessages();
-
-    // Close the client's socket
-    close(client->getSocket());
-
-    // Set the socket to -1 to mark it as closed
-    client->setSocket(-1);
-
-    // Erase the client from the map
-    clients.erase(client->getSocket());
 }
 
 
@@ -236,6 +229,7 @@ const std::string &Client::getRealName() const { return realName; }
 std::vector<std::string>& Client::getClientMessages() { return clientMessages; }
 std::vector<std::string>& Client::getServerReplies()  { return serverReplies; }
 bool Client::getRegisterSteps(int index) const { return registerSteps[index]; }
+std::string &Client::getPartialBuffer() { return partialBuffer; }
 
 
 // Setter methods implementation
@@ -250,3 +244,4 @@ void Client::setNickname(const std::string &nick) { nickname = nick; }
 void Client::setUsername(const std::string &user) { username = user; }
 void Client::setRealName(const std::string &real) { realName = real; }
 void Client::setRegisterSteps(int index, bool reg) { registerSteps[index] = reg; }
+void Client::setPartialBuffer(const std::string &buffer) { partialBuffer = buffer; }

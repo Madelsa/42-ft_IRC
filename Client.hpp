@@ -6,7 +6,7 @@
 /*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:29:32 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/20 20:48:15 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/10/21 04:11:11 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ private:
     std::vector<std::string> clientMessages; // Messages received from client
     std::vector<std::string> serverReplies; // Messages to send to client
     bool registerSteps[3]; // Registration steps
+    std::string partialBuffer; //accept messages till new line is found
 
 public:
     // Default constructor
@@ -47,7 +48,7 @@ public:
     void handleCapCommand(Client *client, const std::vector<std::string> &params);
     void handlePassCommand(Client *client, const std::vector<std::string> &params,
     const std::string &expectedPassword, std::map<int, Client> &clients);
-    void disconnectClient(Client *client, std::map<int, Client> &clients);
+    void disconnectClient(Client *client);
     void printClientMessages(Client *client);
     void sendRepliesToClient(Client *client);
 
@@ -65,6 +66,7 @@ public:
     std::vector<std::string>& getClientMessages();
     std::vector<std::string>& getServerReplies();
     bool getRegisterSteps(int index) const;
+    std::string &getPartialBuffer();
 
 
     // Setter methods
@@ -79,6 +81,7 @@ public:
     void setUsername(const std::string &user);
     void setRealName(const std::string &real);
     void setRegisterSteps(int index, bool reg); 
+    void setPartialBuffer(const std::string &buffer);
 
 
 };
