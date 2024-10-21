@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:45:13 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/21 04:12:30 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/10/21 11:00:40 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "Server.hpp"
+#include "Client.hpp"
 #include "Utils.hpp"
 
 Server::Server(int port, const std::string& password) 
@@ -172,7 +173,7 @@ void Server::handleClientInput(int i, int &clientCount, std::map<int, Client> &c
             else if (currentClient.getRegisterSteps(0) && command == "PASS") {
                 if (!currentClient.getHasSentWelcomeMessage())
                 {
-                    currentClient.handlePassCommand(&currentClient, params, serverPassword, clients);
+                    currentClient.handlePassCommand(&currentClient, params, serverPassword);
                     currentClient.setRegisterSteps(1, true);
                 }
                 else 

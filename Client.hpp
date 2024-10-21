@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:29:32 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/21 04:11:11 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/10/21 11:00:20 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
-#include "Server.hpp"
 
+#include "Server.hpp"
+class Server;
 
 
 // Client class to manage client attributes and actions
@@ -46,8 +47,8 @@ public:
     void MOTD(Client *client);
     void handleUserCommand(Client *client, const std::vector<std::string> &params);
     void handleCapCommand(Client *client, const std::vector<std::string> &params);
-    void handlePassCommand(Client *client, const std::vector<std::string> &params,
-    const std::string &expectedPassword, std::map<int, Client> &clients);
+    void handlePassCommand(Client *client, const std::vector<std::string> &params, const std::string &expectedPassword);
+    // const std::string &expectedPassword, std::map<int, Client> &clients);
     void disconnectClient(Client *client);
     void printClientMessages(Client *client);
     void sendRepliesToClient(Client *client);

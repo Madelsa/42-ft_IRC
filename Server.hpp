@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:26:34 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/21 03:26:08 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/10/21 11:11:52 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
-#include "Client.hpp"
+#include <algorithm>  // for std::find and std::remove
+#include <cctype>     // for isdigit and isalnum
+// #include "Client.hpp"
 
 class Client;
 

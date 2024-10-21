@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:33:26 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/21 04:10:40 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/10/21 11:11:41 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,56 @@ void Client::MOTD(Client *client)
     return ;
 }
 
+// void Client::handleNickCommand(Client *client, const std::vector<std::string> &params, std::vector<std::string>& nicknames) {
+//     if (params.size() < 1) {
+//         client->getServerReplies().push_back(ERR_NONICKNAMEGIVEN(std::string("ircserver")));
+//         return;
+//     }
+
+//     std::string nickName = params[0];
+
+
+//     if (!nickName.empty() && isdigit(nickName[0])) {
+//         client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
+//         return;
+//     }
+
+//     if (nickName.length() > 9) {
+//         client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
+//         return ;
+//     }
+    
+
+//     for (std::string::iterator it = nickName.begin(); it != nickName.end(); ++it) {
+//         if (!isalnum(*it) && *it != '[' && *it != ']' && *it != '{' && *it != '}'
+//             && *it != '|' && *it != '-' && *it != '_') {
+//             client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
+//             return;
+//         }
+//     }
+
+//     if (!nicknames.empty() && std::find(nicknames.begin(), nicknames.end(), nickName) != nicknames.end()) {
+//         client->getServerReplies().push_back(ERR_NICKNAMEINUSE(std::string("ircserv"), nickName));
+//         return;
+//     }
+
+//    if (!client->getNickname().empty()) {
+//         nicknames.erase(std::remove(nicknames.begin(), nicknames.end(), client->getNickname()), nicknames.end());
+//         client->getServerReplies().push_back(RPL_NICK(client->getNickname(), client->getUsername(), nickName));
+//         client->setNickname(nickName);
+//         nicknames.push_back(nickName);
+//         return;
+//     }
+   
+  
+//     client->setNickname(nickName);
+//     nicknames.push_back(nickName);
+//     client->getServerReplies().push_back(RPL_NICK(client->getNickname(), client->getUsername(), nickName));
+    
+// }
+
+
+
 void Client::handleNickCommand(Client *client, const std::vector<std::string> &params, std::vector<std::string>& nicknames) {
     if (params.size() < 1) {
         client->getServerReplies().push_back(ERR_NONICKNAMEGIVEN(std::string("ircserver")));
@@ -78,7 +128,6 @@ void Client::handleNickCommand(Client *client, const std::vector<std::string> &p
 
     std::string nickName = params[0];
 
-
     if (!nickName.empty() && isdigit(nickName[0])) {
         client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
         return;
@@ -86,9 +135,8 @@ void Client::handleNickCommand(Client *client, const std::vector<std::string> &p
 
     if (nickName.length() > 9) {
         client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
-        return ;
+        return;
     }
-    
 
     for (std::string::iterator it = nickName.begin(); it != nickName.end(); ++it) {
         if (!isalnum(*it) && *it != '[' && *it != ']' && *it != '{' && *it != '}'
@@ -98,25 +146,26 @@ void Client::handleNickCommand(Client *client, const std::vector<std::string> &p
         }
     }
 
+    // Use std::find correctly
     if (!nicknames.empty() && std::find(nicknames.begin(), nicknames.end(), nickName) != nicknames.end()) {
         client->getServerReplies().push_back(ERR_NICKNAMEINUSE(std::string("ircserv"), nickName));
         return;
     }
 
-   if (!client->getNickname().empty()) {
+    if (!client->getNickname().empty()) {
+        // Make sure std::remove is used correctly
         nicknames.erase(std::remove(nicknames.begin(), nicknames.end(), client->getNickname()), nicknames.end());
         client->getServerReplies().push_back(RPL_NICK(client->getNickname(), client->getUsername(), nickName));
         client->setNickname(nickName);
         nicknames.push_back(nickName);
         return;
     }
-   
-  
+
     client->setNickname(nickName);
     nicknames.push_back(nickName);
     client->getServerReplies().push_back(RPL_NICK(client->getNickname(), client->getUsername(), nickName));
-    
 }
+
 
 
 void Client::handleUserCommand(Client *client, const std::vector<std::string> &params) {
@@ -152,7 +201,7 @@ void Client::handleCapCommand(Client *client, const std::vector<std::string> &pa
     }
 }
 
-void Client::handlePassCommand(Client *client, const std::vector<std::string> &params, const std::string &expectedPassword, std::map<int, Client> &clients) {   
+void Client::handlePassCommand(Client *client, const std::vector<std::string> &params, const std::string &expectedPassword) {   
     if (params.size() != 1) {
         client->getServerReplies().push_back(ERR_NEEDMOREPARAMS(std::string("ircserver"), "PART"));
         return;
