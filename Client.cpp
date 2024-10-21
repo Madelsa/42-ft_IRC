@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:33:26 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/21 11:11:41 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:43:52 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,187 +38,9 @@ Client::Client(int socket, int clientNumber)
 
 Client::~Client(){}
 
-void Client::MOTD(Client *client)
-{
-    std::ostringstream oss;
-    std::string line;
-    std::ifstream infile;
-
-	if(!client->getIsRegistered())
-		return;
-    infile.open("./MOTD.txt", std::ios::in);
-	
-	client->getServerReplies().push_back(RPL_WELCOME(idFormat(client->getNickname(),client->getUsername()),client->getNickname()));
-	client->getServerReplies().push_back(RPL_YOURHOST(client->getUsername(),"irssi", "1"));
-	client->getServerReplies().push_back(RPL_CREATED(client->getUsername(), std::string("creation_date")));
-	client->getServerReplies().push_back(RPL_MYINFO(client->getUsername(),"irssi", "1", "","",""));
-	client->getServerReplies().push_back(RPL_ISUPPORT(client->getUsername(),"CHANMODES=ikolt"));
-	client->getServerReplies().push_back(RPL_MOTDSTART(client->getUsername(),std::string("ircserver")));
-    if (infile.is_open())
-    {
-        while (std::getline(infile,line))
-        {
-            client->getServerReplies().push_back(RPL_MOTD(std::string("ircserver"),line));
-        }
-        infile.close();
-    }
-    else
-        client->getServerReplies().push_back(ERR_NOMOTD(std::string("ircserver")));
-		
-    client->getServerReplies().push_back( RPL_ENDOFMOTD(std::string("ircserver")));
-    client->setHasSentWelcomeMessage(true);
-    return ;
-}
-
-// void Client::handleNickCommand(Client *client, const std::vector<std::string> &params, std::vector<std::string>& nicknames) {
-//     if (params.size() < 1) {
-//         client->getServerReplies().push_back(ERR_NONICKNAMEGIVEN(std::string("ircserver")));
-//         return;
-//     }
-
-//     std::string nickName = params[0];
-
-
-//     if (!nickName.empty() && isdigit(nickName[0])) {
-//         client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
-//         return;
-//     }
-
-//     if (nickName.length() > 9) {
-//         client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
-//         return ;
-//     }
-    
-
-//     for (std::string::iterator it = nickName.begin(); it != nickName.end(); ++it) {
-//         if (!isalnum(*it) && *it != '[' && *it != ']' && *it != '{' && *it != '}'
-//             && *it != '|' && *it != '-' && *it != '_') {
-//             client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
-//             return;
-//         }
-//     }
-
-//     if (!nicknames.empty() && std::find(nicknames.begin(), nicknames.end(), nickName) != nicknames.end()) {
-//         client->getServerReplies().push_back(ERR_NICKNAMEINUSE(std::string("ircserv"), nickName));
-//         return;
-//     }
-
-//    if (!client->getNickname().empty()) {
-//         nicknames.erase(std::remove(nicknames.begin(), nicknames.end(), client->getNickname()), nicknames.end());
-//         client->getServerReplies().push_back(RPL_NICK(client->getNickname(), client->getUsername(), nickName));
-//         client->setNickname(nickName);
-//         nicknames.push_back(nickName);
-//         return;
-//     }
-   
-  
-//     client->setNickname(nickName);
-//     nicknames.push_back(nickName);
-//     client->getServerReplies().push_back(RPL_NICK(client->getNickname(), client->getUsername(), nickName));
-    
-// }
-
-
-
-void Client::handleNickCommand(Client *client, const std::vector<std::string> &params, std::vector<std::string>& nicknames) {
-    if (params.size() < 1) {
-        client->getServerReplies().push_back(ERR_NONICKNAMEGIVEN(std::string("ircserver")));
-        return;
-    }
-
-    std::string nickName = params[0];
-
-    if (!nickName.empty() && isdigit(nickName[0])) {
-        client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
-        return;
-    }
-
-    if (nickName.length() > 9) {
-        client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
-        return;
-    }
-
-    for (std::string::iterator it = nickName.begin(); it != nickName.end(); ++it) {
-        if (!isalnum(*it) && *it != '[' && *it != ']' && *it != '{' && *it != '}'
-            && *it != '|' && *it != '-' && *it != '_') {
-            client->getServerReplies().push_back(ERR_ERRONEUSNICKNAME(std::string("ircserver"), nickName));
-            return;
-        }
-    }
-
-    // Use std::find correctly
-    if (!nicknames.empty() && std::find(nicknames.begin(), nicknames.end(), nickName) != nicknames.end()) {
-        client->getServerReplies().push_back(ERR_NICKNAMEINUSE(std::string("ircserv"), nickName));
-        return;
-    }
-
-    if (!client->getNickname().empty()) {
-        // Make sure std::remove is used correctly
-        nicknames.erase(std::remove(nicknames.begin(), nicknames.end(), client->getNickname()), nicknames.end());
-        client->getServerReplies().push_back(RPL_NICK(client->getNickname(), client->getUsername(), nickName));
-        client->setNickname(nickName);
-        nicknames.push_back(nickName);
-        return;
-    }
-
-    client->setNickname(nickName);
-    nicknames.push_back(nickName);
-    client->getServerReplies().push_back(RPL_NICK(client->getNickname(), client->getUsername(), nickName));
-}
-
-
-
-void Client::handleUserCommand(Client *client, const std::vector<std::string> &params) {
-    if (params.size() < 3) {
-        client->getServerReplies().push_back(ERR_NEEDMOREPARAMS(std::string("ircserver"), "USER"));
-        return;
-    }
-
-    client->setUsername(params[0]);
-    client->setRealName(params[2]);
-
-    if (client->getHasSentPass()) {
-        std::string successMessage = "USER " + client->getUsername() + " registered successfully!\r\n";
-        client->getServerReplies().push_back(successMessage);
-        client->setIsRegistered(true);
-    }
-}
-
-
-
-void Client::handleCapCommand(Client *client, const std::vector<std::string> &params) {
-    if (params.size() > 0 && params[0] == "LS") {
-        client->setRegisterSteps(0, true);
-        client->getServerReplies().push_back(":server CAP * LS :capabilities_here \r\n");
-    } else if (client->getRegisterSteps(0)) {
-        if (params.size() == 1 && params[0] == "REQ") {
-            client->getServerReplies().push_back(":server CAP * REQ :requested_capabilities \r\n");
-        } else if (params.size() == 1 && params[0] == "NAK") {
-            client->getServerReplies().push_back(":server CAP * NAK :rejected_capabilities \r\n");
-        } else if (params.size() == 1 && params[0] == "ACK") {
-            client->getServerReplies().push_back(":server CAP * ACK :accepted_capabilities \r\n");
-        }
-    }
-}
-
-void Client::handlePassCommand(Client *client, const std::vector<std::string> &params, const std::string &expectedPassword) {   
-    if (params.size() != 1) {
-        client->getServerReplies().push_back(ERR_NEEDMOREPARAMS(std::string("ircserver"), "PART"));
-        return;
-    }
-
-    const std::string &passwordAttempt = params[0];
-    if (passwordAttempt == expectedPassword) {
-        std::string successMessage = "Password accepted\r\n";
-        client->getServerReplies().push_back(successMessage);
-        client->setHasSentPass(true);
-    }
-}
-
 
 void Client::sendRepliesToClient(Client *client)
 {
-    // Check if the client socket is valid before attempting to send
     if (client->getSocket() == -1)
     {
         return; // Socket is closed, do not attempt to send
@@ -253,7 +75,7 @@ void Client::printClientMessages(Client *client) {
 }
 
 void Client::disconnectClient(Client *client) {
-    client->getServerReplies().push_back(ERR_PASSWDMISMATCH(std::string("ircserver")));
+    client->getServerReplies().push_back(ERR_PASSWDMISMATCH(std::string("ircserv")));
     client->getServerReplies().push_back(ERROR_MESSAGE(std::string("Password incorrect. Closing connection.")));
 
 

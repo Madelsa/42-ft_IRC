@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+         #
+#    By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/24 12:26:30 by mabdelsa          #+#    #+#              #
-#    Updated: 2024/10/20 21:19:33 by mahmoud          ###   ########.fr        #
+#    Updated: 2024/10/21 13:38:29 by mabdelsa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC	=	./irc.cpp ./Server.cpp ./Client.cpp ./Utils.cpp \
+SRC	=	./irc.cpp ./Server.cpp ./Client.cpp ./Utils.cpp  ./Commands.cpp \
 
 NAME = ircserv
 RM = rm -f

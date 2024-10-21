@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:26:34 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/21 11:11:52 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:04:48 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,15 @@ private:
     int port;
     std::string serverPassword;
     volatile sig_atomic_t running;
+    std::string serverStartTime;
 
     void setupSocket();
     void acceptClient(int &clientCount, std::map<int, Client> &clients, struct pollfd fds[]);
-    void handleClientInput(int i, int &clientCount, std::map<int, Client> &clients, struct pollfd fds[]);
+    void handleClientInput(int i, int &clientCount, std::map<int, Client> &clients, struct pollfd fds[], std::string serverStartTime) ;
     void removeClientFD(int i, int &clientCount, std::map<int, Client> &clients, struct pollfd fds[]);
     void cleanupClients(int clientCount, struct pollfd fds[]);
+    std::string getCurrentDateTime();
+
 };
 
 #endif // SERVER_HPP

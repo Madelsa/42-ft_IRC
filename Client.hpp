@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:29:32 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/21 11:00:20 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:06:10 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ public:
     Client(int socket, int clientNumber);
 
     void handleNickCommand(Client *client, const std::vector<std::string> &params, std::vector<std::string>& nicknames);
-    void MOTD(Client *client);
+    void MOTD(Client *client, std::string serverStartTime);
     void handleUserCommand(Client *client, const std::vector<std::string> &params);
     void handleCapCommand(Client *client, const std::vector<std::string> &params);
     void handlePassCommand(Client *client, const std::vector<std::string> &params, const std::string &expectedPassword);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.cpp                                          :+:      :+:    :+:   */
+/*   Utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 21:02:31 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/20 21:03:39 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/10/21 13:55:01 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,4 @@ std::vector<std::string> ft_split(std::string str, char delimiter)
         result.push_back(word);
     }
     return result;
-}
-
-std::string getCurrentDateTime()
-{
-    // Get the current time
-    std::time_t rawTime;
-    std::time(&rawTime);
-
-    // Convert to local time
-    struct tm *localTime = std::localtime(&rawTime);
-
-    // Buffer to hold the formatted date and time
-    char buffer[80];
-
-    // Format: YYYY-MM-DD HH:MM:SS
-    strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", localTime);
-
-    return std::string(buffer);
 }
