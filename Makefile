@@ -6,11 +6,11 @@
 #    By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/24 12:26:30 by mabdelsa          #+#    #+#              #
-#    Updated: 2024/09/30 14:43:29 by mabdelsa         ###   ########.fr        #
+#    Updated: 2024/10/21 13:38:29 by mabdelsa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC	=	./irc.cpp \
+SRC	=	./irc.cpp ./Server.cpp ./Client.cpp ./Utils.cpp  ./Commands.cpp \
 
 NAME = ircserv
 RM = rm -f
