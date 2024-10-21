@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 13:45:13 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/10/21 14:43:44 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:14:46 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,7 @@ void Server::handleClientInput(int i, int &clientCount, std::map<int, Client> &c
             else if (!currentClient.getRegisterSteps(1) && command == "USER") {
                 currentClient.disconnectClient(&currentClient);
                 removeClientFD(i, clientCount, clients, fds);
+                return;
             } 
             else if (currentClient.getRegisterSteps(1) && (command == "USER" || command == "NICK")) {
                 if (command == "NICK") {
@@ -267,6 +268,7 @@ void Server::handleClientInput(int i, int &clientCount, std::map<int, Client> &c
                         {
                             currentClient.disconnectClient(&currentClient);
                             removeClientFD(i, clientCount, clients, fds);
+                            return;
                         }
                     }
                     else
